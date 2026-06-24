@@ -1,0 +1,4 @@
+seed,roc_auc,top10_features,jaccard_vs_seed_7
+7,0.7625,"churn_risk_proxy, is_month_to_month, Contract_encoded, commitment_proxy, internet_addon_adoption_rate, is_long_tenure_48m, monthly_value_proxy, MonthlyCharges_normalized, InternetService_encoded, mtm_x_echeck",1.0
+42,0.7609,"churn_risk_proxy, is_month_to_month, Contract_encoded, commitment_proxy, InternetService_encoded, PaymentMethod_encoded, is_long_tenure_48m, TechSupport_Yes, internet_addon_adoption_rate, is_electronic_check",0.5385
+99,0.7806,"churn_risk_proxy, is_month_to_month, is_electronic_check, commitment_proxy, Contract_encoded, TechSupport_Yes, is_new_customer_0_6m, mtm_x_echeck, TechSupport_NoInternet, internet_addon_adoption_rate",0.4286

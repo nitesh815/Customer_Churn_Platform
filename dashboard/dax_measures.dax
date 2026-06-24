@@ -1,0 +1,223 @@
+// =============================================================================
+// Phase 12: Power BI Dashboard - DAX Measures Library
+// Customer Churn Prediction & Analytics Platform
+// Source table: customer_analytics  (imported from churn_analytics.db)
+// =============================================================================
+
+
+// ─────────────────────────────────────────────
+//  SECTION 1 - Customer Counts
+// ─────────────────────────────────────────────
+
+[Total Customers] =
+    COUNTROWS(customer_analytics)
+
+[Churned Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[Churn_encoded] = 1
+    )
+
+[Retained Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[Churn_encoded] = 0
+    )
+
+
+// ─────────────────────────────────────────────
+//  SECTION 2 - Churn Rates
+// ─────────────────────────────────────────────
+
+[Churn Rate %] =
+    DIVIDE(
+        [Churned Customers],
+        [Total Customers],
+        0
+    ) * 100
+
+[Retention Rate %] =
+    100 - [Churn Rate %]
+
+[Churn Rate vs Average] =
+    VAR _overallRate = CALCULATE([Churn Rate %], ALL(customer_analytics))
+    RETURN [Churn Rate %] - _overallRate
+
+
+// ─────────────────────────────────────────────
+//  SECTION 3 - CLV Measures
+// ─────────────────────────────────────────────
+
+[Avg Discounted CLV] =
+    AVERAGE(customer_analytics[discounted_lifetime_value])
+
+[Total Portfolio CLV] =
+    SUM(customer_analytics[discounted_lifetime_value])
+
+[CLV at Risk (Churned)] =
+    CALCULATE(
+        SUM(customer_analytics[discounted_lifetime_value]),
+        customer_analytics[Churn_encoded] = 1
+    )
+
+[CLV Retention Leverage Avg] =
+    AVERAGE(customer_analytics[retention_leverage_score])
+
+[High CLV Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[discounted_lifetime_value] >= 4500
+    )
+
+[High CLV %] =
+    DIVIDE([High CLV Customers], [Total Customers], 0) * 100
+
+
+// ─────────────────────────────────────────────
+//  SECTION 4 - Risk Measures
+// ─────────────────────────────────────────────
+
+[Avg Churn Risk Proxy] =
+    AVERAGE(customer_analytics[churn_risk_proxy])
+
+[High Risk Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[churn_risk_proxy] >= 2
+    )
+
+[High Risk %] =
+    DIVIDE([High Risk Customers], [Total Customers], 0) * 100
+
+[Critical Risk Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[churn_risk_proxy] >= 4
+    )
+
+
+// ─────────────────────────────────────────────
+//  SECTION 5 - Contract & Payment Measures
+// ─────────────────────────────────────────────
+
+[Month-to-Month Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[Contract_encoded] = 0
+    )
+
+[Month-to-Month Churn Rate %] =
+    CALCULATE(
+        [Churn Rate %],
+        customer_analytics[Contract_encoded] = 0
+    )
+
+[Two Year Contract Churn Rate %] =
+    CALCULATE(
+        [Churn Rate %],
+        customer_analytics[Contract_encoded] = 2
+    )
+
+[Auto-Pay Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[is_auto_pay] = 1
+    )
+
+[Electronic Check Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[is_electronic_check] = 1
+    )
+
+[E-Check Churn Rate %] =
+    CALCULATE(
+        [Churn Rate %],
+        customer_analytics[is_electronic_check] = 1
+    )
+
+
+// ─────────────────────────────────────────────
+//  SECTION 6 - Tenure & Lifecycle Measures
+// ─────────────────────────────────────────────
+
+[New Customer Count] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[is_new_customer_0_6m] = 1
+    )
+
+[New Customer Churn Rate %] =
+    CALCULATE(
+        [Churn Rate %],
+        customer_analytics[is_new_customer_0_6m] = 1
+    )
+
+[Long Tenure Customer Count] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[is_long_tenure_48m] = 1
+    )
+
+[Long Tenure Churn Rate %] =
+    CALCULATE(
+        [Churn Rate %],
+        customer_analytics[is_long_tenure_48m] = 1
+    )
+
+
+// ─────────────────────────────────────────────
+//  SECTION 7 - Service Adoption Measures
+// ─────────────────────────────────────────────
+
+[Security Bundle Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[security_bundle] = 1
+    )
+
+[Security Bundle Churn Rate %] =
+    CALCULATE(
+        [Churn Rate %],
+        customer_analytics[security_bundle] = 1
+    )
+
+[Avg Add-on Count] =
+    AVERAGE(customer_analytics[addon_count])
+
+[Zero Add-on Customers] =
+    CALCULATE(
+        COUNTROWS(customer_analytics),
+        customer_analytics[addon_count] = 0
+    )
+
+
+// ─────────────────────────────────────────────
+//  SECTION 8 - Segment KPI Measures
+// ─────────────────────────────────────────────
+
+[Segment Customer Share %] =
+    DIVIDE(
+        COUNTROWS(customer_analytics),
+        CALCULATE(COUNTROWS(customer_analytics), ALL(customer_analytics[segment_label])),
+        0
+    ) * 100
+
+[Segment Avg CLV vs Overall] =
+    VAR _segClv = AVERAGE(customer_analytics[discounted_lifetime_value])
+    VAR _allClv = CALCULATE(AVERAGE(customer_analytics[discounted_lifetime_value]), ALL(customer_analytics))
+    RETURN _segClv - _allClv
+
+
+// ─────────────────────────────────────────────
+//  SECTION 9 - Dynamic KPI Card Labels
+// ─────────────────────────────────────────────
+
+[Churn Rate Label] =
+    FORMAT([Churn Rate %], "0.00") & "%"
+
+[Total CLV Label] =
+    "$" & FORMAT([Total Portfolio CLV] / 1000000, "0.0") & "M"
+
+[Avg CLV Label] =
+    "$" & FORMAT([Avg Discounted CLV], "#,##0")

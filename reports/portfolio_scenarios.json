@@ -1,0 +1,131 @@
+{
+  "scenarios": {
+    "base_case": {
+      "name": "No Intervention",
+      "portfolio_value": 27338378.78,
+      "annual_churn_value": 4922347.195668147,
+      "intervention_spend": 0,
+      "retained_customers": 0,
+      "net_roi": -4922347.195668147
+    },
+    "conservative": {
+      "name": "Conservative",
+      "churn_reduction_pct": 5.0,
+      "intervention_spend": 2733837.8780000005,
+      "retained_annual_value": 246117.35978340745,
+      "net_roi": -2487720.518216593,
+      "roi_ratio": 0.09002631859189106
+    },
+    "target": {
+      "name": "Target",
+      "churn_reduction_pct": 15.0,
+      "intervention_spend": 6834594.695,
+      "retained_annual_value": 738352.0793502223,
+      "net_roi": -6096242.615649778,
+      "roi_ratio": 0.10803158231026927
+    },
+    "aggressive": {
+      "name": "Aggressive",
+      "churn_reduction_pct": 25.0,
+      "intervention_spend": 10935351.512000002,
+      "retained_annual_value": 1230586.7989170367,
+      "net_roi": -9704764.713082965,
+      "roi_ratio": 0.11253289823986377
+    }
+  },
+  "strategy": {
+    "timestamp": "2026-06-24T22:34:22.837055",
+    "total_customers": 7043,
+    "total_portfolio_value": 27338378.78,
+    "total_annual_churn_risk": 4922347.195668147,
+    "portfolio_diversity": {
+      "grow": 1749,
+      "retain": 816,
+      "optimize": 0,
+      "harvest": 4478
+    },
+    "recommended_scenario": "target",
+    "key_insights": [
+      "Top 10% of customers represent 17.5% of portfolio value (concentration risk)",
+      "High-churn segment represents $0 in annual churn risk (0.0% of customers)",
+      "GROW segment: 1749 high-value, low-risk customers representing $10,635,026 in expansion opportunity",
+      "Highest-value segment is 'Stable Value Seekers' - prioritize for growth and account expansion"
+    ]
+  },
+  "playbooks": {
+    "At-Risk New Customers": {
+      "segment_name": "At-Risk New Customers",
+      "customer_count": 1736,
+      "avg_clv": 3490.205552995392,
+      "total_clv": 6058996.84,
+      "churn_rate": 0.11290322580645158,
+      "at_risk_value": 684080.2883870967,
+      "portfolio_distribution": {
+        "grow": 392,
+        "retain": 0,
+        "optimize": 0,
+        "harvest": 1344
+      },
+      "recommended_tactics": [
+        "Intensive onboarding program",
+        "Early success metrics tracking",
+        "Proactive support engagement",
+        "Quick-win delivery targets"
+      ]
+    },
+    "Stable Value Seekers": {
+      "segment_name": "Stable Value Seekers",
+      "customer_count": 1856,
+      "avg_clv": 4731.843626077586,
+      "total_clv": 8782301.77,
+      "churn_rate": 0.07004310344827583,
+      "at_risk_value": 615139.6713900862,
+      "portfolio_distribution": {
+        "grow": 915,
+        "retain": 0,
+        "optimize": 0,
+        "harvest": 941
+      },
+      "recommended_tactics": [
+        "Standard retention tactics"
+      ]
+    },
+    "High Value Loyalists": {
+      "segment_name": "High Value Loyalists",
+      "customer_count": 1470,
+      "avg_clv": 3894.7439319727887,
+      "total_clv": 5725273.579999999,
+      "churn_rate": 0.21428571428571427,
+      "at_risk_value": 1226844.3385714283,
+      "portfolio_distribution": {
+        "grow": 442,
+        "retain": 0,
+        "optimize": 0,
+        "harvest": 1028
+      },
+      "recommended_tactics": [
+        "White-glove account management",
+        "Exclusive upgrade pathways",
+        "Proactive service excellence",
+        "Executive relationship building"
+      ]
+    },
+    "Low Engagement Churn Risk": {
+      "segment_name": "Low Engagement Churn Risk",
+      "customer_count": 1981,
+      "avg_clv": 3418.377884906613,
+      "total_clv": 6771806.59,
+      "churn_rate": 0.35386168601716317,
+      "at_risk_value": 2396282.8973195357,
+      "portfolio_distribution": {
+        "grow": 0,
+        "retain": 816,
+        "optimize": 0,
+        "harvest": 1165
+      },
+      "recommended_tactics": [
+        "Standard retention tactics"
+      ]
+    }
+  }
+}

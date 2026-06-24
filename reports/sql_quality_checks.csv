@@ -1,0 +1,7 @@
+check_name,status,description
+row_count_match_overview,PASS,Base table row count matches churn overview total.
+segment_sum_matches_base,PASS,Sum of segment customers matches base row count.
+contract_sum_matches_base,PASS,Sum of contract customers matches base row count.
+clv_band_sum_matches_base,PASS,Sum of CLV band customers matches base row count.
+churn_rate_bounds,PASS,Overall churn rate is within 0-100%.
+non_null_customer_id,PASS,No NULL/blank customer IDs in base table.

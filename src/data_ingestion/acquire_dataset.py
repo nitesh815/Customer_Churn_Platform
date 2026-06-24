@@ -59,30 +59,75 @@ def generate_telco_churn_dataset(output_path: str, num_records: int = 7043) -> N
             tenure = random.randint(0, 72)
             monthly_charges = round(random.uniform(18, 118), 2)
             total_charges = round(monthly_charges * tenure, 2) if tenure > 0 else 0
-            
-            # Churn logic: longer tenure and higher charges slightly reduce churn probability
-            churn_prob = 0.27 - (tenure * 0.002) + (random.random() * 0.15)
-            churn = "Yes" if churn_prob > 0.5 else "No"
+
+            # Generate key service/account attributes before churn scoring.
+            contract = random.choice(contract_types)
+            payment_method = random.choice(payment_methods)
+            internet_service = random.choice(internet_types)
+            online_security = random.choice(["Yes", "No", "No internet service"])
+            tech_support = random.choice(["Yes", "No", "No internet service"])
+            paperless_billing = random.choice(yes_no)
+            senior_citizen = random.randint(0, 1)
+
+            # Churn logic: business-driven risk score with bounded probability.
+            churn_prob = 0.20
+
+            if contract == "Month-to-month":
+                churn_prob += 0.20
+            elif contract == "One year":
+                churn_prob -= 0.05
+            else:  # Two year
+                churn_prob -= 0.15
+
+            if tenure <= 6:
+                churn_prob += 0.18
+            elif tenure <= 12:
+                churn_prob += 0.08
+            elif tenure >= 48:
+                churn_prob -= 0.10
+
+            if internet_service == "Fiber optic":
+                churn_prob += 0.06
+            elif internet_service == "No":
+                churn_prob -= 0.04
+
+            if payment_method == "Electronic check":
+                churn_prob += 0.08
+            elif payment_method in ("Bank transfer", "Credit card"):
+                churn_prob -= 0.04
+
+            if online_security == "Yes":
+                churn_prob -= 0.06
+            if tech_support == "Yes":
+                churn_prob -= 0.08
+            if paperless_billing == "Yes":
+                churn_prob += 0.02
+            if senior_citizen == 1:
+                churn_prob += 0.03
+
+            churn_prob += random.uniform(-0.04, 0.04)
+            churn_prob = max(0.03, min(0.80, churn_prob))
+            churn = "Yes" if random.random() < churn_prob else "No"
             
             row = {
                 "customerID": f"ID-{i+1:06d}",
                 "gender": random.choice(genders),
-                "SeniorCitizen": random.randint(0, 1),
+                "SeniorCitizen": senior_citizen,
                 "Partner": random.choice(yes_no),
                 "Dependent": random.choice(yes_no),
                 "tenure": tenure,
                 "PhoneService": random.choice(phone_services),
                 "MultipleLines": random.choice(["Yes", "No", "No phone service"]),
-                "InternetService": random.choice(internet_types),
-                "OnlineSecurity": random.choice(["Yes", "No", "No internet service"]),
+                "InternetService": internet_service,
+                "OnlineSecurity": online_security,
                 "OnlineBackup": random.choice(["Yes", "No", "No internet service"]),
                 "DeviceProtection": random.choice(["Yes", "No", "No internet service"]),
-                "TechSupport": random.choice(["Yes", "No", "No internet service"]),
+                "TechSupport": tech_support,
                 "StreamingTV": random.choice(["Yes", "No", "No internet service"]),
                 "StreamingMovies": random.choice(["Yes", "No", "No internet service"]),
-                "Contract": random.choice(contract_types),
-                "PaperlessBilling": random.choice(yes_no),
-                "PaymentMethod": random.choice(payment_methods),
+                "Contract": contract,
+                "PaperlessBilling": paperless_billing,
+                "PaymentMethod": payment_method,
                 "MonthlyCharges": monthly_charges,
                 "TotalCharges": total_charges,
                 "Churn": churn,
