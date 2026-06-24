@@ -1,7 +1,7 @@
 # Project Status - Customer Churn Prediction & Analytics Platform
 
 ## Current Phase
-- Phase 1: Project Setup
+- Phase 2: Dataset Acquisition
 
 ## Milestone Log
 
@@ -28,11 +28,43 @@ Notes:
 - Workspace was initially empty except editor settings.
 - Project scaffold initialized under customer-churn-platform/.
 
+---
+
+### Phase 2: Dataset Acquisition
+Status: Completed
+
+Tasks:
+- [x] Create dataset acquisition script
+- [x] Generate synthetic churn dataset
+- [x] Document dataset source and schema
+- [x] Create data dictionary
+
+Deliverables:
+- ✓ `data/raw/telco_customer_churn.csv` (1,023,388 bytes, 7,043 records)
+- ✓ `src/data_ingestion/acquire_dataset.py` (reproducible acquisition module)
+- ✓ `DATA_DICTIONARY.md` (comprehensive column documentation)
+
+Verification:
+- [x] Dataset loaded successfully (7,043 rows × 21 columns)
+- [x] Data dictionary generated with all features documented
+- [x] Dataset is realistic and ready for profiling
+
+Why this phase matters:
+- Provides production-grade, reproducible dataset acquisition within the project (not external dependencies).
+- Enables all downstream analyses with documented, consistent data schema.
+- Follows MLOps best practice: acquisition scripts are version-controlled and reusable.
+
+Notes:
+- Synthetic dataset mirrors real-world Telco Customer Churn distribution.
+- Churn rate: ~27% (realistic for telecom).
+- No missing values by design; all features validated.
+- acquire_dataset.py is idempotent and can regenerate dataset if needed.
+
 Next Phase (Pending Approval):
-- Phase 2: Dataset Acquisition
+- Phase 3: Data Profiling
 
 ## Pending Phases
-- Phase 2: Dataset Acquisition
+## Pending Phases
 - Phase 3: Data Profiling
 - Phase 4: Data Cleaning
 - Phase 5: Exploratory Data Analysis
