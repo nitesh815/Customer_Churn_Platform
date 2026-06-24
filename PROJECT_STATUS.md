@@ -1,7 +1,7 @@
 # Project Status - Customer Churn Prediction & Analytics Platform
 
 ## Current Phase
-- Phase 4: Data Cleaning
+- Phase 5: Exploratory Data Analysis
 
 ## Milestone Log
 
@@ -148,11 +148,63 @@ Notes:
 - Processed dataset is 35.6% smaller than raw (more efficient)
 - All transformations documented for reproducibility
 
+---
+
+### Phase 5: Exploratory Data Analysis
+Status: Completed
+
+Tasks:
+- [x] Churn distribution analysis
+- [x] Customer demographics analysis
+- [x] Revenue and customer value analysis
+- [x] Service adoption and usage patterns
+- [x] Correlation and association analysis
+- [x] Retention patterns and risk segmentation
+- [x] Cross-segment analysis
+
+Deliverables:
+- ✓ `notebooks/05_eda.ipynb` (interactive EDA notebook)
+- ✓ `reports/eda_report.md` (comprehensive 500+ line analysis report)
+
+Verification:
+- [x] All 7 analytical sections completed
+- [x] Key insights documented and actionable
+- [x] Risk segments identified and quantified
+- [x] Visualizations structured for Phase 12 dashboard
+
+Key Findings:
+- **Churn rate:** 26.54% overall (above telecom average)
+- **Highest churn:** Month-to-month contracts (42.71%), new customers 0-6mo (53.2%)
+- **Lowest churn:** 2-year contracts (2.55%), 36+ month tenure (6.28%)
+- **Revenue at risk:** $2.86M (16.7% of total historical revenue)
+- **Critical segments:** 5 high-risk combinations identified (>40% churn)
+- **Protective factors:** 2-year contracts, tech support, dependents (10-20pp churn reduction)
+
+Why this phase matters:
+- Identifies churn drivers for targeted retention strategies
+- Provides insights for feature engineering priorities (Phase 6)
+- Establishes baseline for predictive model (Phase 9)
+- Informs Power BI dashboard design (Phase 12)
+- Enables business recommendations (Phase 13)
+
+Strategic Recommendations:
+1. Launch onboarding program for new customers (target: reduce 0-6mo churn 53%→35%)
+2. Incentivize longer contracts (target: shift 30% of month-to-month to 1+ year)
+3. Implement auto-pay migration (target: reduce e-check payment users)
+4. Create senior customer segment with dedicated support
+5. Audit fiber optic service quality and pricing
+6. Bundle add-on services (tech support shows 50% churn reduction)
+
+Notes:
+- Strong churn signals suggest Phase 9 model should achieve >80% AUC
+- Tenure is single strongest predictor after contract type
+- Cross-segment analysis reveals "ideal customer" profile (1.8% churn)
+- 6 major insights with 10+ secondary findings
+
 Next Phase (Pending Approval):
-- Phase 5: Exploratory Data Analysis
+- Phase 6: Feature Engineering
 
 ## Pending Phases
-- Phase 5: Exploratory Data Analysis
 - Phase 6: Feature Engineering
 - Phase 7: Customer Segmentation
 - Phase 8: Customer Lifetime Value Analysis
